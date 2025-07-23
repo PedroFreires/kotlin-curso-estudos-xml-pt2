@@ -20,7 +20,10 @@ class MainActivityA : AppCompatActivity() {
     }
     private fun initListener() {
         binding.btnNext.setOnClickListener {
-            startActivity(Intent(this, MainActivityB::class.java))
+            // Enviando informação de uma activity para outra
+            val intent = Intent(this, MainActivityB::class.java)
+            intent.putExtra("user", User("Pedro", 20))
+            startActivity(intent)
         }
     }
 }
