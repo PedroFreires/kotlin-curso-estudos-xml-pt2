@@ -15,6 +15,7 @@ class MainActivityA : AppCompatActivity() {
         binding = ActivityMainABinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+
         initListener()
     }
     private fun initListener() {

@@ -15,5 +15,13 @@ class MainActivityB : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        //add suporte ao toolbar B
+        setSupportActionBar(binding.toolbarB)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        finish()
+        return true
     }
 }
