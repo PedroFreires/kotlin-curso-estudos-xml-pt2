@@ -1,7 +1,9 @@
 package com.example.activity
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.MenuItem
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -34,5 +36,15 @@ class MainActivityB : AppCompatActivity() {
             Log.i("INFOTESTE", "getExtra: ${user.name}")
             Log.i("INFOTESTE", "getExtra: ${user.age}")
         }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if(item.itemId == android.R.id.home) {
+            val intent = Intent()
+            intent.putExtra("user", User("Pedro", 20))
+            setResult(RESULT_OK, intent)
+            finish()
+        }
+        return true
     }
 }
