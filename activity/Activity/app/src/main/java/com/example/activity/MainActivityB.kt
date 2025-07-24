@@ -28,9 +28,11 @@ class MainActivityB : AppCompatActivity() {
     }
 
     private fun getExtra() {
-        val user = intent.getSerializableExtra("user") as User
+        if(intent.hasExtra("user")){
+            val user = intent.getSerializableExtra("user") as User
 
-        Log.i("INFOTESTE", "getExtra: ${user.name}")
-        Log.i("INFOTESTE", "getExtra: ${user.age}")
+            Log.i("INFOTESTE", "getExtra: ${user.name}")
+            Log.i("INFOTESTE", "getExtra: ${user.age}")
+        }
     }
 }
