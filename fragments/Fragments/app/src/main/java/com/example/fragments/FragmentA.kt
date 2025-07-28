@@ -27,8 +27,12 @@ class FragmentA : Fragment() {
         initListener()
     }
     private fun initListener() {
+        val name = "Olá, Pedro"
+
         binding.btnNext.setOnClickListener {
-            findNavController().navigate(R.id.action_fragmentA_to_fragmentB)
+            val action = FragmentADirections
+                .actionFragmentAToFragmentB(name)
+            findNavController().navigate(action)
         }
     }
 

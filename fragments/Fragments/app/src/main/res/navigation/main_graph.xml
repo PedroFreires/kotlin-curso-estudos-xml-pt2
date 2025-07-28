@@ -20,5 +20,11 @@
         android:id="@+id/fragmentB"
         android:name="com.example.fragments.FragmentB"
         android:label="Fragment B"
-        tools:layout="@layout/fragment_b" />
+        tools:layout="@layout/fragment_b" >
+
+        <argument
+            android:name="name"
+            app:argType="string" />
+
+    </fragment>
 </navigation>
