@@ -47,7 +47,7 @@ class FragmentA : Fragment() {
             viewLifecycleOwner
         ) {
             key, bundle ->
-            val name = bundle["key"].toString()
+            val name = bundle["KEY"].toString()
             Toast.makeText(requireContext(), name, Toast.LENGTH_SHORT).show()
         }
     }
