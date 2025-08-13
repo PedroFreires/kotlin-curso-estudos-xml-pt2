@@ -54,10 +54,10 @@ import com.example.taskapp.util.showBottomSheet
                     Toast.makeText(requireContext(), R.string.all_very_well, Toast.LENGTH_SHORT).show()
                     findNavController().navigate(R.id.action_global_homeFragment)
                 } else {
-                    showBottomSheet(message = R.string.password_empty)
+                    showBottomSheet(message = getString(R.string.password_empty))
                 }
             } else {
-                showBottomSheet(message = R.string.email_empty)
+                showBottomSheet(message = getString(R.string.email_empty))
             }
         }
 

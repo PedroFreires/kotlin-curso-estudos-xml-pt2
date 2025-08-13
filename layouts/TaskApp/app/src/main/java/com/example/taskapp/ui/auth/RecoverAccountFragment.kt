@@ -42,7 +42,7 @@ class RecoverAccountFragment : Fragment() {
         if(email.isNotEmpty()) {
                 Toast.makeText(requireContext(), "Você receberá um link para recuperar sua senha.", Toast.LENGTH_SHORT).show()
             } else {
-            showBottomSheet(message = R.string.email_empty)
+            showBottomSheet(message = getString(R.string.email_empty))
         }
     }
 

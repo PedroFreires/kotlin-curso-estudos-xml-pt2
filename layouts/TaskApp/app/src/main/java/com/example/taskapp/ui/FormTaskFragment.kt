@@ -46,7 +46,7 @@ class FormTaskFragment : Fragment() {
             Toast.makeText(requireContext(), R.string.all_very_well_form_task_fragment, Toast.LENGTH_SHORT).show()
 
         } else {
-            showBottomSheet(message = R.string.description_empty_form_task_fragment)
+            showBottomSheet(message = getString(R.string.description_empty_form_task_fragment))
         }
     }
 
