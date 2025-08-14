@@ -40,7 +40,7 @@ class RecoverAccountFragment : Fragment() {
     private fun validateData() {
         val email = binding.editEmail.text.toString().trim()
         if(email.isNotEmpty()) {
-                Toast.makeText(requireContext(), "Você receberá um link para recuperar sua senha.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Verifique seu email.", Toast.LENGTH_SHORT).show()
             } else {
             showBottomSheet(message = getString(R.string.email_empty))
         }

@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">TaskApp</string>
+    
     <!--    Status tasks-->
     <string name="status_task_todo">A fazer</string>
     <string name="status_task_doing">Fazendo</string>
@@ -9,17 +10,41 @@
     <string name="text_title_warning">Atenção</string>
     <string name="text_button_warning">ENTENDI</string>
     <string name="email_empty">Preencha seu e-mail</string>
+    <string name="email_text">E-mail</string>
+    <string name="password_text">Senha</string>
     <string name="password_empty">Preencha sua senha</string>
     <string name="all_very_well">Tudo Certo</string>
+    <string name="text_hint_email">Digite seu e-mail</string>
+    <string name="text_hint_password">Digite sua senha</string>
+
+    <!--    Login Fragment-->
+    <string name="text_button_login_fragment">Entrar</string>
+    <string name="text_button_login_register_fragment">Criar conta</string>
+    <string name="text_button_login_recover_account_fragment">Esqueci a senha</string>
+
 
     <!--    Register Fragment-->
     <string name="email_empty_register_fragment">Preencha um e-mail válido</string>
     <string name="password_empty_register_fragment">Preencha uma senha</string>
     <string name="all_very_well_register_fragment">Tudo Certo</string>
+    <string name="text_title_toolbar_register_fragment">Criar conta</string>
+    <string name="text_button_register_fragment">Registrar conta</string>
+
+    <!--    Recover Account Fragment-->
+    <string name="text_info_recover_account_fragment">Informe o seu E-mail de cadastro para receber um link de alteração de senha</string>
+    <string name="text_title_toolbar_recover_account_fragment">Recuperar conta</string>
+    <string name="text_button_recover_account_fragment">ENVIAR</string>
+
 
     <!--    Form Task Fragment-->
-    <string name="description_empty_form_task_fragment">Preencha a Descrição</string>
     <string name="all_very_well_form_task_fragment">Tudo Certo</string>
+    <string name="text_title_toolbar_form_task_fragment">Nova tarefa</string>
+    <string name="text_description_form_task_fragment">Descrição</string>
+    <string name="description_empty_form_task_fragment">Preencha a Descrição</string>
+    <string name="hint_description_form_task_fragment">Ex: Criar nova tela de login do app</string>
+    <string name="text_status_form_task_fragment">Status</string>
+    <string name="text_button_form_task_fragment">Salvar</string>
+
 
 
 </resources>
