@@ -6,6 +6,8 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.taskapp.R
 import com.example.taskapp.data.model.Status
@@ -17,15 +19,25 @@ class TaskAdapter(
     private val context: Context,
     private val taskList: List<Task>,
     private val taskSelected:(Task, Int) -> Unit
-) : RecyclerView.Adapter<TaskAdapter.MyViewHolder>() {
+) : ListAdapter<Task, TaskAdapter.MyViewHolder>(DIFF_CALLBACK) {
 
     //Eventos de clique que podemos ter em cada Task
     companion object{
-        val SELECT BACK: Int = 1
-        val SELECT REMOVE: Int = 2
-        val SELECT EDIT: Int = 3
-        val SELECT DETAILS: Int = 4
-        val SELECT NEXT: Int = 5
+        val SELECT_BACK: Int = 1
+        val SELECT_REMOVE: Int = 2
+        val SELECT_EDIT: Int = 3
+        val SELECT_DETAILS: Int = 4
+        val SELECT_NEXT: Int = 5
+
+        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Task>() {
+            override fun areItemsTheSame(oldItem: Task, newItem: Task): Boolean {
+                return oldItem.id == newItem.id && oldItem.description == newItem.description
+            }
+
+            override fun areContentsTheSame(oldItem: Task, newItem: Task): Boolean {
+                return oldItem == newItem && oldItem.description == newItem.description
+            }
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
@@ -45,7 +57,9 @@ class TaskAdapter(
 
         setIndicators(task, holder)
 
-
+        holder.binding.btnDelete.setOnClickListener { taskSelected(task, SELECT_REMOVE) }
+        holder.binding.btnEdit.setOnClickListener { taskSelected(task, SELECT_EDIT) }
+        holder.binding.btnDetails.setOnClickListener { taskSelected(task, SELECT_DETAILS) }
     }
 
     private fun setIndicators(task: Task, holder: MyViewHolder) {
@@ -53,7 +67,7 @@ class TaskAdapter(
             TODO -> {
                 holder.binding.btnBack.isVisible = false
 
-                holder.binding.btnDelete.setOnClickListener { taskSelected }
+                holder.binding.btnNext.setOnClickListener { taskSelected(task, SELECT_NEXT) }
             }
 
             DOING -> {
@@ -70,10 +84,15 @@ class TaskAdapter(
                         R.color.color_status_done
                     )
                 )
+
+                holder.binding.btnBack.setOnClickListener { taskSelected(task, SELECT_BACK) }
+                holder.binding.btnNext.setOnClickListener { taskSelected(task, SELECT_NEXT) }
             }
 
             DONE -> {
                 holder.binding.btnNext.isVisible = false
+
+                holder.binding.btnBack.setOnClickListener { taskSelected(task, SELECT_BACK) }
             }
         }
     }
