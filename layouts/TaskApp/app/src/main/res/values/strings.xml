@@ -1,0 +1,25 @@
+<resources>
+    <string name="app_name">TaskApp</string>
+    <!--    Status tasks-->
+    <string name="status_task_todo">A fazer</string>
+    <string name="status_task_doing">Fazendo</string>
+    <string name="status_task_done">Feito</string>
+
+    <!--    Generic-->
+    <string name="text_title_warning">Atenção</string>
+    <string name="text_button_warning">ENTENDI</string>
+    <string name="email_empty">Preencha seu e-mail</string>
+    <string name="password_empty">Preencha sua senha</string>
+    <string name="all_very_well">Tudo Certo</string>
+
+    <!--    Register Fragment-->
+    <string name="email_empty_register_fragment">Preencha um e-mail válido</string>
+    <string name="password_empty_register_fragment">Preencha uma senha</string>
+    <string name="all_very_well_register_fragment">Tudo Certo</string>
+
+    <!--    Form Task Fragment-->
+    <string name="description_empty_form_task_fragment">Preencha a Descrição</string>
+    <string name="all_very_well_form_task_fragment">Tudo Certo</string>
+
+
+</resources>
