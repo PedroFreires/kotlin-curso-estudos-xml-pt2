@@ -10,14 +10,12 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.taskapp.R
-import com.example.taskapp.data.model.Status
 import com.example.taskapp.data.model.Status.*
 import com.example.taskapp.data.model.Task
 import com.example.taskapp.databinding.ItemTaskBinding
 
 class TaskAdapter(
     private val context: Context,
-    private val taskList: List<Task>,
     private val taskSelected:(Task, Int) -> Unit
 ) : ListAdapter<Task, TaskAdapter.MyViewHolder>(DIFF_CALLBACK) {
 
@@ -51,7 +49,7 @@ class TaskAdapter(
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        val task = taskList[position]
+        val task = getItem(position)
 
         holder.binding.textDescription.text = task.description
 
@@ -96,8 +94,6 @@ class TaskAdapter(
             }
         }
     }
-
-    override fun getItemCount() = taskList.size
 
     //inner class é porque estou usando essa classe internamente (somente aqui)
     inner class MyViewHolder(val binding: ItemTaskBinding) : RecyclerView.ViewHolder(binding.root)

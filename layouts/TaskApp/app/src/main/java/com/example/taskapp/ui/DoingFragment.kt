@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.taskapp.R
 import com.example.taskapp.data.model.Status
 import com.example.taskapp.data.model.Task
 import com.example.taskapp.databinding.FragmentDoingBinding
@@ -33,12 +32,20 @@ class DoingFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        initRecyclerView(getTasks())
+        initRecyclerView()
+
+        getTasks()
     }
 
-    private fun initRecyclerView(taskList: List<Task>) {
-        taskAdapter = TaskAdapter(requireContext(), taskList) { task, option ->
+    private fun initRecyclerView() {
+        taskAdapter = TaskAdapter(requireContext()) { task, option ->
             optionSelected(task, option)
+        }
+
+        with(binding.rvTasks) {
+            layoutManager = LinearLayoutManager(requireContext())
+            setHasFixedSize(true)
+            adapter = taskAdapter
         }
 
         binding.rvTasks.layoutManager = LinearLayoutManager(requireContext())
@@ -70,13 +77,16 @@ class DoingFragment : Fragment() {
     }
 
 
-    private fun getTasks() = listOf(
-        Task("0", "Criar adapter de contatos", Status.DOING),
-        Task("1", "Criar dialog padrão para o app", Status.DOING),
-        Task("2", "Refatorar código da classe de tarefas", Status.DOING),
-        Task("3", "Publicar aplicativo na loja", Status.DOING),
-        Task("4", "Atualizar dependências do app", Status.DOING),
-    )
+    private fun getTasks() {
+        val taskList = listOf(
+            Task("0", "Criar adapter de contatos", Status.DOING),
+            Task("1", "Criar dialog padrão para o app", Status.DOING),
+            Task("2", "Refatorar código da classe de tarefas", Status.DOING),
+            Task("3", "Publicar aplicativo na loja", Status.DOING),
+            Task("4", "Atualizar dependências do app", Status.DOING),
+        )
+        taskAdapter.submitList(taskList)
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()

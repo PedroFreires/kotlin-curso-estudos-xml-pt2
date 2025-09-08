@@ -7,12 +7,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.taskapp.R
 import com.example.taskapp.data.model.Status
 import com.example.taskapp.data.model.Task
 import com.example.taskapp.databinding.FragmentTodoBinding
 import com.example.taskapp.ui.adapter.TaskAdapter
+import com.example.taskapp.ui.adapter.TaskTopAdapter
 
 
 class TodoFragment : Fragment() {
@@ -20,6 +22,7 @@ class TodoFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var taskAdapter: TaskAdapter
+    private lateinit var taskTopAdapter: TaskTopAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -36,7 +39,9 @@ class TodoFragment : Fragment() {
 
         initListeners()
 
-        initRecyclerView(getTasks())
+        initRecyclerView()
+
+        getTasks()
     }
 
     private fun initListeners() {
@@ -45,14 +50,28 @@ class TodoFragment : Fragment() {
         }
     }
 
-    private fun initRecyclerView(taskList: List<Task>) {
-        taskAdapter = TaskAdapter(requireContext(), taskList) { task, option ->
+    private fun initRecyclerView() {
+        taskTopAdapter = TaskTopAdapter { task, option ->
             optionSelected(task, option)
         }
 
+        taskAdapter = TaskAdapter(requireContext()) { task, option ->
+            optionSelected(task, option)
+        }
+
+        val concatAdapter = ConcatAdapter(taskTopAdapter, taskAdapter)
+
+        with(binding.rvTasks) {
+            layoutManager = LinearLayoutManager(requireContext())
+            setHasFixedSize(true)
+            adapter = concatAdapter
+        }
+
+        /* *** REMOVIDO ***
         binding.rvTasks.layoutManager = LinearLayoutManager(requireContext())
         binding.rvTasks.setHasFixedSize(true)
         binding.rvTasks.adapter = taskAdapter
+        */
     }
 
     private fun optionSelected(task: Task, option: Int) {
@@ -75,13 +94,22 @@ class TodoFragment : Fragment() {
         }
     }
 
-    private fun getTasks() = listOf(
-        Task("0", "Criar nova tela do app", Status.TODO),
-        Task("1", "Validar informações na tela de login", Status.TODO),
-        Task("2", "Adicionar nova funcionalidade no app", Status.TODO),
-        Task("3", "Salvar token localmente", Status.TODO),
-        Task("4", "Criar funcionalidade de logout no app", Status.TODO),
-    )
+    private fun getTasks() {
+        val taskTopList = listOf(
+            Task("0", "Essa tarefa esta no topo da minha lista", Status.TODO),
+        )
+
+        val taskList = listOf(
+            Task("0", "Criar nova tela do app", Status.TODO),
+            Task("1", "Validar informações na tela de login", Status.TODO),
+            Task("2", "Adicionar nova funcionalidade no app", Status.TODO),
+            Task("3", "Salvar token localmente", Status.TODO),
+            Task("4", "Criar funcionalidade de logout no app", Status.TODO),
+        )
+
+        taskTopAdapter.submitList(taskTopList)
+        taskAdapter.submitList(taskList)
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()

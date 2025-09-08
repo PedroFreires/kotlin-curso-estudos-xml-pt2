@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.taskapp.R
 import com.example.taskapp.data.model.Status
 import com.example.taskapp.data.model.Task
 import com.example.taskapp.databinding.FragmentDoneBinding
@@ -32,12 +31,20 @@ class DoneFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        initRecyclerView(getTasks())
+        initRecyclerView()
+
+        getTasks()
     }
 
-    private fun initRecyclerView(taskList: List<Task>) {
-        taskAdapter = TaskAdapter(requireContext(), taskList) { task, option ->
+    private fun initRecyclerView() {
+        taskAdapter = TaskAdapter(requireContext()) { task, option ->
             optionSelected(task, option)
+        }
+
+        with(binding.rvTasks) {
+            layoutManager = LinearLayoutManager(requireContext())
+            setHasFixedSize(true)
+            adapter = taskAdapter
         }
 
         binding.rvTasks.layoutManager = LinearLayoutManager(requireContext())
@@ -65,13 +72,16 @@ class DoneFragment : Fragment() {
     }
 
 
-    private fun getTasks() = listOf(
-        Task("0", "Criar nova tela do app", Status.DONE),
-        Task("1", "Validar informações na tela de login", Status.DONE),
-        Task("2", "Adicionar nova funcionalidade no app", Status.DONE),
-        Task("3", "Salvar token localmente", Status.DONE),
-        Task("4", "Criar funcionalidade de logout no app", Status.DONE),
-    )
+    private fun getTasks() {
+        val taskList = listOf(
+            Task("0", "Criar nova tela do app", Status.DONE),
+            Task("1", "Validar informações na tela de login", Status.DONE),
+            Task("2", "Adicionar nova funcionalidade no app", Status.DONE),
+            Task("3", "Salvar token localmente", Status.DONE),
+            Task("4", "Criar funcionalidade de logout no app", Status.DONE),
+        )
+        taskAdapter.submitList(taskList)
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()
