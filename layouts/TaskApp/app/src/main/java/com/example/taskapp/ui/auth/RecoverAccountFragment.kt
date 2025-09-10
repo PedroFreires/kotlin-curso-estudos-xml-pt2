@@ -6,29 +6,38 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.view.isVisible
 import com.example.taskapp.R
 import com.example.taskapp.databinding.FragmentRecoverAccountBinding
 import com.example.taskapp.util.initToolbar
 import com.example.taskapp.util.showBottomSheet
+import com.google.firebase.Firebase
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.auth
 
 class RecoverAccountFragment : Fragment() {
 
     private var _binding: FragmentRecoverAccountBinding? = null
     private val binding get() = _binding!!
 
+    private lateinit var auth: FirebaseAuth
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         // Inflate the layout for this fragment
         _binding = FragmentRecoverAccountBinding.inflate(inflater, container, false)
         return binding.root
     }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initToolbar(binding.toolbar)
+
+        auth = Firebase.auth
 
         initListeners()
     }
@@ -39,11 +48,27 @@ class RecoverAccountFragment : Fragment() {
 
     private fun validateData() {
         val email = binding.editEmail.text.toString().trim()
-        if(email.isNotEmpty()) {
-                Toast.makeText(requireContext(), "Você receberá um link para recuperar sua senha.", Toast.LENGTH_SHORT).show()
-            } else {
-            showBottomSheet(message = R.string.email_empty)
+        if (email.isNotEmpty()) {
+            binding.progressBar.isVisible = true
+            recoverAccountUser(email)
+        } else {
+            showBottomSheet(message = getString(R.string.email_empty))
         }
+    }
+
+    private fun recoverAccountUser(email: String) {
+        auth.sendPasswordResetEmail(email)
+            .addOnCompleteListener { task ->
+                binding.progressBar.isVisible = false
+
+                if (task.isSuccessful) {
+                    showBottomSheet(message = getString(R.string.text_message_recover_account_fragment))
+                }else {
+                    binding.progressBar.isVisible = false
+
+                    Toast.makeText(requireContext(), task.exception?.message, Toast.LENGTH_SHORT).show()
+                }
+            }
     }
 
     override fun onDestroyView() {

@@ -15,7 +15,15 @@
     <!--    Register Fragment-->
     <string name="email_empty_register_fragment">Preencha um e-mail válido</string>
     <string name="password_empty_register_fragment">Preencha uma senha</string>
-    <string name="all_very_well_register_fragment">Tudo Certo</string>
+    <string name="all_very_well_register_fragment">Bem vindo</string>
+
+    <!--    Recover Account Fragment-->
+    <string name="text_message_recover_account_fragment">Pronto, acabamos de envioar um link para o seu e-mail</string>
+
+    <!--    Home Fragment-->
+    <string name="text_dialog_confirm_logout">Deseja sair da sua conta?</string>
+    <string name="text_button_dialog_confirm_logout">Confirmar</string>
+    <string name="text_message_dialog_confirm_logout">Aperte em confirmar para sair dessa conta</string>
 
     <!--    Form Task Fragment-->
     <string name="description_empty_form_task_fragment">Preencha a Descrição</string>
