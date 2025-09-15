@@ -7,7 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.view.isVisible
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.example.taskapp.R
 import com.example.taskapp.data.model.Status
 import com.example.taskapp.data.model.Task
@@ -20,6 +22,7 @@ import com.google.firebase.auth.auth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.database
 import java.lang.ref.Reference
+import kotlin.getValue
 
 
 class FormTaskFragment : Fragment() {
@@ -32,6 +35,9 @@ class FormTaskFragment : Fragment() {
     private lateinit var auth: FirebaseAuth
     private var status: Status = Status.TODO
     private var newTask: Boolean = true
+    private val args: FormTaskFragmentArgs by navArgs()
+
+    private val viewModel: TaskViewModel by activityViewModels()
 
 
     override fun onCreateView(
@@ -50,8 +56,19 @@ class FormTaskFragment : Fragment() {
         reference = Firebase.database.reference
         auth = Firebase.auth
 
-
+        getArgs()
         initListeners()
+    }
+
+    private fun getArgs() {
+        args.task.let { //it ->
+            if (it != null) {
+                this.task = it
+
+                configTask()
+            }
+
+        }
     }
 
     private fun initListeners() {
@@ -67,6 +84,27 @@ class FormTaskFragment : Fragment() {
         }
     }
 
+    private fun configTask() {
+        newTask = false
+        status = task.status
+        binding.textToolbar.text = getString(R.string.text_toolbar_update_form_task_fragment)
+
+        binding.editDescription.setText(task.description)
+
+        setStatus()
+    }
+
+    private fun setStatus() {
+
+         binding.rgStatus.check(
+             when (task.status) {
+             Status.TODO -> R.id.rbTodo
+             Status.DOING -> R.id.rbDoing
+             else -> R.id.rbDone
+            }
+         )
+    }
+
     private fun validateData() {
         val description = binding.editDescription.text.toString().trim()
 
@@ -74,8 +112,11 @@ class FormTaskFragment : Fragment() {
 
             binding.progressBar.isVisible = true
 
-            if (newTask) task = Task()
-            task.id = reference.database.reference.push().key ?: ""//gera id para cada nova tarefa
+            if (newTask) {
+                task = Task()
+                task.id = reference.database.reference.push().key ?: ""//gera id para cada nova tarefa
+
+            }
             task.description = description
             task.status = status
 
@@ -101,6 +142,8 @@ class FormTaskFragment : Fragment() {
                     if (newTask) { //Nova tarefa
                         findNavController().popBackStack()
                     } else { //Editando tarefa
+                        viewModel.setUpdateTask(task)
+
                         binding.progressBar.isVisible = true
                     }
 

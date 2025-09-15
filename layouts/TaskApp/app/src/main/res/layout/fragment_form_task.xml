@@ -22,15 +22,16 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:navigationIcon="@drawable/ic_back"
-                android:backgroundTint="@color/color_default">
+                android:backgroundTint="@color/color_default"
+                app:navigationIcon="@drawable/ic_back">
 
                 <TextView
+                    android:id="@+id/text_toolbar"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
                     android:text="Nova tarefa"
-                    android:textColor="@color/white"
-                    android:layout_gravity="center_horizontal"/>
+                    android:textColor="@color/white" />
 
             </com.google.android.material.appbar.MaterialToolbar>
 

@@ -35,6 +35,7 @@
     <string name="description_empty_form_task_fragment">Preencha a Descrição</string>
     <string name="all_very_well_form_task_fragment">Tudo Certo</string>
     <string name="text_save_sucess_form_task_fragment">Tarefa salva com sucesso</string>
+    <string name="text_toolbar_update_form_task_fragment">Editando Tarefa...</string>
 
 
 </resources>
