@@ -1,6 +1,7 @@
 package com.example.taskapp.ui
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -9,7 +10,6 @@ import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.taskapp.R
 import com.example.taskapp.data.model.Status
@@ -18,14 +18,9 @@ import com.example.taskapp.databinding.FragmentTodoBinding
 import com.example.taskapp.ui.adapter.TaskAdapter
 import com.example.taskapp.util.FirebaseHelper
 import com.example.taskapp.util.showBottomSheet
-import com.google.firebase.Firebase
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.auth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ValueEventListener
-import com.google.firebase.database.database
 
 
 class TodoFragment : Fragment() {
@@ -132,8 +127,8 @@ class TodoFragment : Fragment() {
 
             }
             TaskAdapter.SELECT_NEXT -> {
-                Toast.makeText(requireContext(), "Next ${task.description}", Toast.LENGTH_SHORT).show()
-
+                task.status = Status.DOING
+                updateTask(task)
             }
         }
     }
@@ -160,12 +155,11 @@ class TodoFragment : Fragment() {
                 }
 
                 override fun onCancelled(error: DatabaseError) {
-                    Toast.makeText(requireContext(), R.string.error_generic, Toast.LENGTH_SHORT).show()
+                    Log.i("INFOTESTE", "onCancelled: ")
                 }
 
             })
     }
-
     private fun deleteTask(task: Task) {
         FirebaseHelper.getDatabase()
             .child("tasks")
@@ -173,7 +167,25 @@ class TodoFragment : Fragment() {
             .child(task.id)
             .removeValue().addOnCompleteListener { result ->
                 if (result.isSuccessful) {
-                    Toast.makeText(requireContext(), R.string.text_delete_sucess_task, Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), R.string.text_delete_success_task, Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(requireContext(), R.string.error_generic, Toast.LENGTH_SHORT).show()
+                }
+            }
+    }
+
+    private fun updateTask(task: Task) {
+        FirebaseHelper.getDatabase()
+            .child("tasks")
+            .child(FirebaseHelper.getIdUser())
+            .child(task.id)
+            .setValue(task).addOnCompleteListener { result ->
+                if (result.isSuccessful) {
+                    Toast.makeText(
+                        requireContext(),
+                        R.string.text_update_success_form_task_fragment,
+                        Toast.LENGTH_SHORT
+                    ).show()
                 } else {
                     Toast.makeText(requireContext(), R.string.error_generic, Toast.LENGTH_SHORT).show()
                 }

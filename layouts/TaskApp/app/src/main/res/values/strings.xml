@@ -14,7 +14,7 @@
     <string name="error_generic">Ocorreu um erro! Por favor tente novamente mais tarde</string>
     <string name="text_list_task_empty">Nenhuma tarefa cadastrada</string>
     <string name="text_load_list_task">Aguarde, estamos carregando</string>
-    <string name="text_delete_sucess_task">Tarefa removida com sucesso</string>
+    <string name="text_delete_success_task">Tarefa removida com sucesso</string>
     <string name="text_button_dialog_confirm">Confirmar</string>
     <string name="text_title_dialog_confirm">Deseja remover essa tarefa?</string>
     <string name="text_message_dialog_confirm">Aperte em confirmar para remover a tarefa</string>
@@ -41,7 +41,8 @@
     <!--    Form Task Fragment-->
     <string name="description_empty_form_task_fragment">Preencha a Descrição</string>
     <string name="all_very_well_form_task_fragment">Tudo Certo</string>
-    <string name="text_save_sucess_form_task_fragment">Tarefa salva com sucesso</string>
+    <string name="text_save_success_form_task_fragment">Tarefa salva com sucesso</string>
+    <string name="text_update_success_form_task_fragment">Tarefa atualizada com sucesso</string>
     <string name="text_toolbar_update_form_task_fragment">Editando Tarefa...</string>
 
 
