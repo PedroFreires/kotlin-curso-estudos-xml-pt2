@@ -1,12 +1,12 @@
 package com.example.taskapp.ui
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -14,15 +14,9 @@ import com.example.taskapp.R
 import com.example.taskapp.data.model.Status
 import com.example.taskapp.data.model.Task
 import com.example.taskapp.databinding.FragmentFormTaskBinding
+import com.example.taskapp.util.FirebaseHelper
 import com.example.taskapp.util.initToolbar
 import com.example.taskapp.util.showBottomSheet
-import com.google.firebase.Firebase
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.auth
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.database
-import java.lang.ref.Reference
-import kotlin.getValue
 
 
 class FormTaskFragment : Fragment() {
@@ -31,8 +25,6 @@ class FormTaskFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var task: Task
-    private lateinit var reference: DatabaseReference
-    private lateinit var auth: FirebaseAuth
     private var status: Status = Status.TODO
     private var newTask: Boolean = true
     private val args: FormTaskFragmentArgs by navArgs()
@@ -53,8 +45,6 @@ class FormTaskFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initToolbar(binding.toolbar)
 
-        reference = Firebase.database.reference
-        auth = Firebase.auth
 
         getArgs()
         initListeners()
@@ -112,11 +102,7 @@ class FormTaskFragment : Fragment() {
 
             binding.progressBar.isVisible = true
 
-            if (newTask) {
-                task = Task()
-                task.id = reference.database.reference.push().key ?: ""//gera id para cada nova tarefa
-
-            }
+            if (newTask) task = Task()
             task.description = description
             task.status = status
 
@@ -127,9 +113,9 @@ class FormTaskFragment : Fragment() {
     }
 
     private fun saveTask() {
-        reference
+        FirebaseHelper.getDatabase()
             .child("tasks")
-            .child(auth.currentUser?.uid ?: "")
+            .child(FirebaseHelper.getIdUser())
             .child(task.id)
             .setValue(task).addOnCompleteListener { result ->
                 if (result.isSuccessful) {

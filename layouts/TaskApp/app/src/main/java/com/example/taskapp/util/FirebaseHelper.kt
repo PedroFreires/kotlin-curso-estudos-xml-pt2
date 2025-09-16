@@ -30,8 +30,11 @@ class FirebaseHelper {
                 error.contains("The email address is already in use by another account") -> {
                     R.string.email_in_use_register_fragment
                 }
-                error.contains("Password should be at least characters") -> {
+                error.contains("Password should be at least 6 characters") -> {
                     R.string.strong_password_register_fragment
+                }
+                error.contains("The supplied auth credential is incorrect, malformed or has expired.") -> {
+                    R.string.invalid_password_register_fragment
                 }
                 else -> {
                     R.string.error_generic

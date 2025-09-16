@@ -1,14 +1,15 @@
 package com.example.taskapp.ui.auth
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
 import com.example.taskapp.R
 import com.example.taskapp.databinding.FragmentRecoverAccountBinding
+import com.example.taskapp.util.FirebaseHelper
 import com.example.taskapp.util.initToolbar
 import com.example.taskapp.util.showBottomSheet
 import com.google.firebase.Firebase
@@ -48,8 +49,11 @@ class RecoverAccountFragment : Fragment() {
 
     private fun validateData() {
         val email = binding.editEmail.text.toString().trim()
+
         if (email.isNotEmpty()) {
+
             binding.progressBar.isVisible = true
+
             recoverAccountUser(email)
         } else {
             showBottomSheet(message = getString(R.string.email_empty))
@@ -62,11 +66,15 @@ class RecoverAccountFragment : Fragment() {
                 binding.progressBar.isVisible = false
 
                 if (task.isSuccessful) {
+                    Log.i("INFOTESTE", "loginUser: ${task.exception?.message}")
+
                     showBottomSheet(message = getString(R.string.text_message_recover_account_fragment))
                 }else {
                     binding.progressBar.isVisible = false
 
-                    Toast.makeText(requireContext(), task.exception?.message, Toast.LENGTH_SHORT).show()
+                    showBottomSheet(
+                        message = getString(FirebaseHelper.validError(task.exception?.message.toString()))
+                    )
                 }
             }
     }
