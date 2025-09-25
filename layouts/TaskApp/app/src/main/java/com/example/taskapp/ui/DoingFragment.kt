@@ -97,7 +97,7 @@ class DoingFragment : Fragment() {
         when(option) {
             TaskAdapter.SELECT_BACK -> {
                 task.status = Status.TODO
-                updateTask(task)
+                viewModel.updateTask(task)
             }
             TaskAdapter.SELECT_REMOVE -> {
                 showBottomSheet(
@@ -115,12 +115,13 @@ class DoingFragment : Fragment() {
                 findNavController().navigate(action)
             }
             TaskAdapter.SELECT_DETAILS -> {
-                Toast.makeText(requireContext(), "Detalhes ${task.description}", Toast.LENGTH_SHORT).show()
-
+                val action = HomeFragmentDirections
+                    .actionHomeFragmentToFormTaskFragment(task)
+                findNavController().navigate(action)
             }
             TaskAdapter.SELECT_NEXT -> {
                 task.status = Status.DONE
-                updateTask(task)
+                viewModel.updateTask(task)
 
             }
         }
@@ -167,23 +168,6 @@ class DoingFragment : Fragment() {
             }
     }
 
-    private fun updateTask(task: Task) {
-        FirebaseHelper.getDatabase()
-            .child("tasks")
-            .child(FirebaseHelper.getIdUser())
-            .child(task.id)
-            .setValue(task).addOnCompleteListener { result ->
-                if (result.isSuccessful) {
-                    Toast.makeText(
-                        requireContext(),
-                        R.string.text_update_success_form_task_fragment,
-                        Toast.LENGTH_SHORT
-                    ).show()
-                } else {
-                    Toast.makeText(requireContext(), R.string.error_generic, Toast.LENGTH_SHORT).show()
-                }
-            }
-    }
 
     private fun listEmpty(taskList: List<Task>) {
         binding.textInfo.text = if (taskList.isEmpty()) {

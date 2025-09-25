@@ -114,8 +114,9 @@ class DoneFragment : Fragment() {
 
             }
             TaskAdapter.SELECT_DETAILS -> {
-                Toast.makeText(requireContext(), "Detalhes ${task.description}", Toast.LENGTH_SHORT).show()
-
+                val action = HomeFragmentDirections
+                    .actionHomeFragmentToFormTaskFragment(task)
+                findNavController().navigate(action)
             }
         }
     }

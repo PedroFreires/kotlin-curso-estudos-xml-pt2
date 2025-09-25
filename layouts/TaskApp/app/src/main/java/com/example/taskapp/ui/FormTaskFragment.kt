@@ -61,7 +61,11 @@ class FormTaskFragment : BaseFragment() {
     }
 
     private fun initListeners() {
-        binding.btnSave.setOnClickListener { validateData() }
+        binding.btnSave.setOnClickListener {
+            observeViewModel()
+
+            validateData()
+        }
 
         binding.rgStatus.setOnCheckedChangeListener { _, id ->
             status = when (id) {
@@ -85,13 +89,13 @@ class FormTaskFragment : BaseFragment() {
 
     private fun setStatus() {
 
-         binding.rgStatus.check(
-             when (task.status) {
-             Status.TODO -> R.id.rbTodo
-             Status.DOING -> R.id.rbDoing
-             else -> R.id.rbDone
+        binding.rgStatus.check(
+            when (task.status) {
+                Status.TODO -> R.id.rbTodo
+                Status.DOING -> R.id.rbDoing
+                else -> R.id.rbDone
             }
-         )
+        )
     }
 
     private fun validateData() {
@@ -107,38 +111,37 @@ class FormTaskFragment : BaseFragment() {
             task.description = description
             task.status = status
 
-            saveTask()
+            if (newTask) {
+                viewModel.insertTask(task)
+            } else {
+                viewModel.updateTask(task)
+            }
+
         } else {
             showBottomSheet(message = getString(R.string.description_empty_form_task_fragment))
         }
     }
 
-    private fun saveTask() {
-        FirebaseHelper.getDatabase()
-            .child("tasks")
-            .child(FirebaseHelper.getIdUser())
-            .child(task.id)
-            .setValue(task).addOnCompleteListener { result ->
-                if (result.isSuccessful) {
-                    Toast.makeText(
-                        requireContext(),
-                        R.string.text_save_success_form_task_fragment,
-                        Toast.LENGTH_SHORT
-                    ).show()
+    private fun observeViewModel() {
+        viewModel.taskInsert.observe(viewLifecycleOwner) { task ->
+            Toast.makeText(
+                requireContext(),
+                R.string.text_save_success_form_task_fragment,
+                Toast.LENGTH_SHORT
+            ).show()
 
-                    if (newTask) { //Nova tarefa
-                        findNavController().popBackStack()
-                    } else { //Editando tarefa
-                        viewModel.setUpdateTask(task)
+            findNavController().popBackStack()
+        }
 
-                        binding.progressBar.isVisible = true
-                    }
+        viewModel.taskUpdate.observe(viewLifecycleOwner) { task ->
+            Toast.makeText(
+                requireContext(),
+                R.string.text_update_success_form_task_fragment,
+                Toast.LENGTH_SHORT
+            ).show()
 
-                } else {
-                    binding.progressBar.isVisible = false
-                    showBottomSheet(message = getString(R.string.error_generic))
-                }
-            }
+            binding.progressBar.isVisible = false
+        }
     }
 
     override fun onDestroyView() {
