@@ -5,7 +5,7 @@ import androidx.room3.PrimaryKey
 import com.example.taskapp.data.model.Status
 
 @Entity(tableName = "word_table")
-class Task(
+class TaskEntity(
     @PrimaryKey(autoGenerate = true) //Auto incremento para o id
     val id: Long = 0,
 
