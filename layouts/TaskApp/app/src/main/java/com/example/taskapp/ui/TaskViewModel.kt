@@ -3,10 +3,11 @@ package com.example.taskapp.ui
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.taskapp.data.db.repository.TaskRepository
 import com.example.taskapp.data.model.Task
 import com.example.taskapp.util.StateView
 
-class TaskViewModel : ViewModel() {
+class TaskViewModel(private val repository: TaskRepository) : ViewModel() {
     private val _taskList = MutableLiveData<StateView<List<Task>>>()
     val taskList: LiveData<StateView<List<Task>>> = _taskList
 
