@@ -1,6 +1,5 @@
 package com.example.taskapp.data.db.repository
 
-import androidx.room3.Entity
 import com.example.taskapp.data.db.dao.TaskDao
 import com.example.taskapp.data.db.entity.TaskEntity
 import com.example.taskapp.data.model.Task
@@ -11,7 +10,7 @@ class TaskRepository(private val  taskDao: TaskDao) {
         return taskDao.getAllTask()
     }
 
-    suspend fun insertTask(taskEntity: Entity): Long {
+    suspend fun insertTask(taskEntity: TaskEntity): Long {
         return taskDao.insertTask(taskEntity)
     }
 

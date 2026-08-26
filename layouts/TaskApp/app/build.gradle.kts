@@ -60,13 +60,10 @@ dependencies {
     implementation(libs.androidx.navigation.ui.ktx)
 
     // Room
-    dependencies {
-        val room_version = "3.0.1"
-
-        implementation("androidx.room3:room3-ktx:$room_version")
-        implementation("androidx.room3:room3-runtime:$room_version")
-        annotationProcessor ("androidx.room3:room3-compiler:$room_version")
-    }
+        val room_version = "2.7.0-alpha12"
+        implementation("androidx.room:room-ktx:$room_version")
+        implementation("androidx.room:room-runtime:$room_version")
+        kapt ("androidx.room:room-compiler:$room_version")
 
     // Lifecycle components
     val lifecycle_version = "2.11.0"

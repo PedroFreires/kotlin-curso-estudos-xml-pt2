@@ -1,9 +1,9 @@
 package com.example.taskapp.data.db
 
 import android.content.Context
-import androidx.room3.Database
-import androidx.room3.Room
-import androidx.room3.RoomDatabase
+import androidx.room.Database
+import androidx.room.Room
+import androidx.room.RoomDatabase
 import com.example.taskapp.data.db.dao.TaskDao
 import com.example.taskapp.data.db.entity.TaskEntity
 

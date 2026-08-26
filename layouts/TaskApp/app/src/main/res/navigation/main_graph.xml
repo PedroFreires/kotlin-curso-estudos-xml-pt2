@@ -35,4 +35,7 @@
             android:id="@+id/action_tasksFragment_to_formTaskFragment"
             app:destination="@id/formTaskFragment" />
     </fragment>
+    <argument
+        android:name="task"
+        app:argType="com.example.taskapp.data.model.Task" />
 </navigation>

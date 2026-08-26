@@ -1,10 +1,11 @@
 package com.example.taskapp.data.db.entity
 
-import androidx.room3.Entity
-import androidx.room3.PrimaryKey
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
 import com.example.taskapp.data.model.Status
 
-@Entity(tableName = "word_table")
+@Entity(tableName = "task_table")
 class TaskEntity(
     @PrimaryKey(autoGenerate = true) //Auto incremento para o id
     val id: Long = 0,
