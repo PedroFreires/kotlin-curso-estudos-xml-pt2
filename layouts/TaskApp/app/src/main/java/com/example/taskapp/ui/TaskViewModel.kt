@@ -44,7 +44,15 @@ class TaskViewModel(private val repository: TaskRepository) : ViewModel() {
         }
     }
 
-    private fun updateTask(task: Task) {
+    private fun updateTask(task: Task) = viewModelScope.launch {
+        try {
+            repository.updateTask(task.toTaskEntity())
+            _taskStateData.postValue(StateTask.Update)
+            _taskStateMessage.postValue(R.string.text_update_success_form_task_fragment)
+
+        } catch (ex: Exception) {
+            _taskStateMessage.postValue(R.string.text_update_error_form_task_fragment)
+        }
     }
 
     fun deleteTask(task: Task) {

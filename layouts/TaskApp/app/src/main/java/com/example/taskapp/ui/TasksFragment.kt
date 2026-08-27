@@ -113,7 +113,7 @@ class TasksFragment : Fragment() {
     }
 
     private fun optionSelected(task: Task, option: Int) {
-//        when (option) {
+        when (option) {
 //            TaskAdapter.SELECT_REMOVE -> {
 //                showBottomSheet(
 //                    titleDialog = R.string.text_title_dialog_confirm,
@@ -125,19 +125,19 @@ class TasksFragment : Fragment() {
 //                )
 //            }
 //
-//            TaskAdapter.SELECT_EDIT -> {
-//                val action = TasksFragmentDirections
-//                    .actionTasksFragmentToFormTaskFragment(task)
-//                findNavController().navigate(action)
-//
-//            }
-//
-//            TaskAdapter.SELECT_DETAILS -> {
-//                Toast.makeText(requireContext(), "Detalhes ${task.description}", Toast.LENGTH_SHORT).show()
-//
-//            }
-//
-//        }
+            TaskAdapter.SELECT_EDIT -> {
+                val action = TasksFragmentDirections
+                    .actionTasksFragmentToFormTaskFragment(task)
+                findNavController().navigate(action)
+
+            }
+
+            TaskAdapter.SELECT_DETAILS -> {
+                Toast.makeText(requireContext(), "Detalhes ${task.description}", Toast.LENGTH_SHORT).show()
+
+            }
+
+        }
     }
 
     private fun listEmpty(taskList: List<Task>) {
