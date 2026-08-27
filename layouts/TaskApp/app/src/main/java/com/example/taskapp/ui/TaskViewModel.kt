@@ -57,5 +57,4 @@ sealed class StateTask {
     object Inserted: StateTask()
     object Update: StateTask()
     object Delete: StateTask()
-    object List: StateTask()
 }
