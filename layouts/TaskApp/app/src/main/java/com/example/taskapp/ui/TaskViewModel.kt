@@ -3,10 +3,14 @@ package com.example.taskapp.ui
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.taskapp.R
+import com.example.taskapp.data.db.entity.toTaskEntity
 import com.example.taskapp.data.db.repository.TaskRepository
 import com.example.taskapp.data.model.Status
 import com.example.taskapp.data.model.Task
-import com.example.taskapp.util.StateView
+import kotlinx.coroutines.launch
+
 
 class TaskViewModel(private val repository: TaskRepository) : ViewModel() {
     private val _taskStateData = MutableLiveData<StateTask>()
@@ -26,7 +30,18 @@ class TaskViewModel(private val repository: TaskRepository) : ViewModel() {
     fun getTasks() {
     }
 
-    private fun insertTask(task: Task) {
+    private fun insertTask(task: Task) = viewModelScope.launch {
+        try {
+
+            val id = repository.insertTask(task.toTaskEntity())
+            if (id > 0) {
+                _taskStateData.postValue(StateTask.Inserted)
+                _taskStateMessage.postValue(R.string.text_save_success_form_task_fragment)
+            }
+
+        } catch (ex: Exception) {
+            _taskStateMessage.postValue(R.string.text_save_error_form_task_fragment)
+        }
     }
 
     private fun updateTask(task: Task) {
