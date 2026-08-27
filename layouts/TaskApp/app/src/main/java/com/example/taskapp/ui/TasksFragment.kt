@@ -33,7 +33,7 @@ class TasksFragment : Fragment() {
     private lateinit var taskAdapter: TaskAdapter
 
 
-    private val viewModel: TaskListViewModel by viewModels {
+    private val taskListViewModel: TaskListViewModel by viewModels {
         object : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
                 if (modelClass.isAssignableFrom(TaskListViewModel::class.java)) {
@@ -44,6 +44,24 @@ class TasksFragment : Fragment() {
 
                     @Suppress("UNCHECKED_CAST")
                     return TaskListViewModel(repository) as T
+                }
+                throw IllegalArgumentException("Unknown ViewModel class")
+            }
+        }
+    }
+    // A forma ideal de evitar essa "duplicidade" de código que esta sendo criado agora,
+    // seria utilizar injeção de dependecia
+    private val taskViewModel: TaskViewModel by viewModels {
+        object : ViewModelProvider.Factory {
+            override fun <T : ViewModel> create(modelClass: Class<T>): T {
+                if (modelClass.isAssignableFrom(TaskViewModel::class.java)) {
+
+                    val database = AppDataBase.getDatabase(requireContext())
+
+                    val repository = TaskRepository(database.taskDao())
+
+                    @Suppress("UNCHECKED_CAST")
+                    return TaskViewModel(repository) as T
                 }
                 throw IllegalArgumentException("Unknown ViewModel class")
             }
@@ -72,7 +90,7 @@ class TasksFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        viewModel.getAllTasks()
+        taskListViewModel.getAllTasks()
     }
 
     // Ouvinte de eventos de clique
@@ -87,9 +105,15 @@ class TasksFragment : Fragment() {
 
 
     private fun observeViewModel() {
-        viewModel.taskList.observe(viewLifecycleOwner) { taskList ->
+        taskListViewModel.taskList.observe(viewLifecycleOwner) { taskList ->
             taskAdapter.submitList(taskList)
             listEmpty(taskList)
+        }
+
+        taskViewModel.taskStateData.observe(viewLifecycleOwner) { stateTask ->
+            if (stateTask == StateTask.Delete) {
+                taskListViewModel.getAllTasks()
+            }
         }
     }
 
@@ -114,17 +138,17 @@ class TasksFragment : Fragment() {
 
     private fun optionSelected(task: Task, option: Int) {
         when (option) {
-//            TaskAdapter.SELECT_REMOVE -> {
-//                showBottomSheet(
-//                    titleDialog = R.string.text_title_dialog_confirm,
-//                    titleButton = R.string.text_button_dialog_confirm,
-//                    message = getString(R.string.text_message_dialog_confirm),
-//                    onClick = {
-//                        viewModel.deleteTask(task)
-//                    }
-//                )
-//            }
-//
+            TaskAdapter.SELECT_REMOVE -> {
+                showBottomSheet(
+                    titleDialog = R.string.text_title_dialog_confirm,
+                    titleButton = R.string.text_button_dialog_confirm,
+                    message = getString(R.string.text_message_dialog_confirm),
+                    onClick = {
+                        taskViewModel.deleteTask(task.id)
+                    }
+                )
+            }
+
             TaskAdapter.SELECT_EDIT -> {
                 val action = TasksFragmentDirections
                     .actionTasksFragmentToFormTaskFragment(task)
