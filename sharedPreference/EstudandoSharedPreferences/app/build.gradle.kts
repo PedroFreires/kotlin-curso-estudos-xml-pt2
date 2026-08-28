@@ -35,10 +35,14 @@ android {
     kotlinOptions {
         jvmTarget = "11"
     }
+    buildFeatures {
+        viewBinding = true
+    }
 }
 
 dependencies {
-    implementation(libs.androidx.core.ktx)
+    implementation("androidx.core:core-ktx:1.15.0")
+    implementation("androidx.core:core:1.15.0")
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
     implementation(libs.androidx.activity)
